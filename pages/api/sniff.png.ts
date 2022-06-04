@@ -19,6 +19,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const response = await fetch("https://ipwho.is/" + req.socket.remoteAddress);
   const json = await response.json();
 
+  throw Error("ugh");
+
   await new AWS.DynamoDB()
     .putItem({
       TableName: "user-agents",
