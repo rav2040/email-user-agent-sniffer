@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const response = await fetch("https://ipwho.is/" + req.socket.remoteAddress);
   const json = await response.json();
 
-  await new AWS.DynamoDB()
+  new AWS.DynamoDB()
     .putItem({
       TableName: "user-agents",
       Item: {
@@ -32,13 +32,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         user_agent_string: { S: req.headers["user-agent"] ?? "" },
       },
     })
-    .promise();
+    .promise()
+    .then((r) => {
+      res.status(200).json(r);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
 
-  const buf = Buffer.from(imageBytes);
+  // const buf = Buffer.from(imageBytes);
 
   // res.setHeader("content-type", "image/png");
   // res.setHeader("content-length", buf.length);
   // res.status(200).write(buf);
   // res.end();
-  res.send("aaa___" + process.env.V_ACCESS_KEY_ID);
 }
