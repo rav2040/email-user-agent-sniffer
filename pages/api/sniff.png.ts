@@ -16,29 +16,31 @@ const imageBytes = [
 ];
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const ip = String(req.headers["x-real-ip"]);
+  //const ip = String(req.headers["x-real-ip"]);
 
-  const response = await fetch("https://ipwho.is/" + ip);
-  const json = await response.json();
+  res.status(200).json(req.headers);
 
-  new AWS.DynamoDB()
-    .putItem({
-      TableName: "user-agents",
-      Item: {
-        id: { S: nanoid() },
-        timestamp: { S: new Date().toISOString() },
-        ip: { S: ip },
-        user_agent_string: { S: req.headers["user-agent"] ?? "" },
-        country_code: { S: json.success ? json.country_code : "" },
-        city: { S: json.success ? json.city : "" },
-        isp: { S: json.success ? json.connection.isp : "" },
-      },
-    })
-    .promise();
+  // const response = await fetch("https://ipwho.is/" + ip);
+  // const json = await response.json();
 
-  const buf = Buffer.from(imageBytes);
-  res.setHeader("content-type", "image/png");
-  res.setHeader("content-length", buf.length);
-  res.status(200).write(buf);
-  res.end();
+  // new AWS.DynamoDB()
+  //   .putItem({
+  //     TableName: "user-agents",
+  //     Item: {
+  //       id: { S: nanoid() },
+  //       timestamp: { S: new Date().toISOString() },
+  //       ip: { S: ip },
+  //       user_agent_string: { S: req.headers["user-agent"] ?? "" },
+  //       country_code: { S: json.success ? json.country_code : "" },
+  //       city: { S: json.success ? json.city : "" },
+  //       isp: { S: json.success ? json.connection.isp : "" },
+  //     },
+  //   })
+  //   .promise();
+
+  // const buf = Buffer.from(imageBytes);
+  // res.setHeader("content-type", "image/png");
+  // res.setHeader("content-length", buf.length);
+  // res.status(200).write(buf);
+  // res.end();
 }
