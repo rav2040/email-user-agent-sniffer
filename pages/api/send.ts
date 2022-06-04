@@ -1,42 +1,34 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import AWS from "aws-sdk";
+import mailjet from "node-mailjet";
 
-AWS.config.update({
-  accessKeyId: process.env.V_ACCESS_KEY_ID,
-  secretAccessKey: process.env.V_SECRET_ACCESS_KEY,
-  region: "ap-southeast-2",
-});
+const client = mailjet.connect(String(process.env.MAILJET_API_KEY), String(process.env.MAILJET_SECRET_KEY));
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
+    const to = req.query["to"];
+
+    if (!to) throw Error("Missing 'to' param.");
+
     const params = {
-      Destination: {
-        ToAddresses: ["rav2040@gmail.com"],
-      },
-      Message: {
-        Body: {
-          Html: {
-            Charset: "UTF-8",
-            Data: `
-              <html>
-                <body>
-                  <p>some text</p>
-                  <img src="https://email-user-agent-sniffer.vercel.app/api/sniff.png" />
-                </body>
-              </html>
-            `,
-          },
+      Messages: [
+        {
+          From: { Email: "no-reply@rav2040.xyz" },
+          To: [{ Email: to }],
+          Subject: "User agent sniffer",
+          HTMLPart: `
+            <html>
+              <body>
+                <p>some text</p>
+                <img src="https://email-user-agent-sniffer.vercel.app/api/sniff.png" />
+              </body>
+            </html>
+          `,
         },
-        Subject: {
-          Charset: "UTF-8",
-          Data: "Test email",
-        },
-      },
-      Source: "no-reply@rav2040.xyz",
+      ],
     };
 
-    await new AWS.SES().sendEmail(params).promise();
+    await client.post("send", { version: "v3.1" }).request(params);
 
     res.status(204).end();
   } catch (err) {
