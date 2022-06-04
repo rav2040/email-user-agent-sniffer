@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const response = await fetch("https://ipwho.is/" + req.socket.remoteAddress);
   const json = await response.json();
 
-  new AWS.DynamoDB()
+  await new AWS.DynamoDB()
     .putItem({
       TableName: "user-agents",
       Item: {
@@ -32,9 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         user_agent_string: { S: req.headers["user-agent"] ?? "" },
       },
     })
-    .promise()
-    .then(console.log)
-    .catch(console.error);
+    .promise();
 
   const buf = Buffer.from(imageBytes);
 
