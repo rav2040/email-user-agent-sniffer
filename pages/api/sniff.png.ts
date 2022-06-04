@@ -16,9 +16,9 @@ const imageBytes = [
 ];
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  //const ip = String(req.headers["x-real-ip"]);
+  const ip = String(req.headers["x-forwarded-for"] ?? req.headers["x-real-ip"]);
 
-  res.status(200).json(req.headers);
+  res.status(200).send("IP=" + ip);
 
   // const response = await fetch("https://ipwho.is/" + ip);
   // const json = await response.json();
