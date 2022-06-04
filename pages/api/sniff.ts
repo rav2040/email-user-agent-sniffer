@@ -32,10 +32,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   //   .then(console.log)
   //   .catch(console.error);
 
-  // const buf = createCanvas(1, 1).toBuffer("image/png");
-  // res.setHeader("content-type", "image/png");
-  // res.setHeader("content-length", buf.length);
-  // res.status(200).write(buf);
-  // res.end();
-  res.send("Hello there!");
+  const buf = createCanvas(1, 1).toBuffer("image/png");
+  res.setHeader("content-type", "image/png");
+  res.setHeader("content-length", buf.length);
+  res.status(200).write(buf);
+  res.end();
 }
