@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const geoResponse = await fetch("https://ipwho.is/" + ip);
     const geo = await geoResponse.json();
 
-    new AWS.DynamoDB()
+    await new AWS.DynamoDB()
       .putItem({
         TableName: "user-agents",
         Item: {
