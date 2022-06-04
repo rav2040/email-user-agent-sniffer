@@ -16,16 +16,10 @@ const imageBytes = [
 ];
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const buf = Buffer.from(imageBytes);
-  res.setHeader("content-type", "image/png");
-  res.setHeader("content-length", buf.length);
-  res.status(200).write(buf);
-  res.end();
-
   const ip = String(req.headers["x-forwarded-for"] ?? req.headers["x-real-ip"]);
 
   const response = await fetch("https://ipwho.is/" + ip);
-  const geo = await response.json();
+  const json = await response.json();
 
   new AWS.DynamoDB()
     .putItem({
@@ -35,10 +29,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         timestamp: { S: new Date().toISOString() },
         ip: { S: ip },
         user_agent_string: { S: req.headers["user-agent"] ?? "" },
-        country_code: { S: geo.success ? geo.country_code : "" },
-        city: { S: geo.success ? geo.city : "" },
-        isp: { S: geo.success ? geo.connection.isp : "" },
+        country_code: { S: json.success ? json.country_code : "" },
+        city: { S: json.success ? json.city : "" },
+        isp: { S: json.success ? json.connection.isp : "" },
       },
     })
-    .promise();
+    .promise()
+    .finally(() => {
+      const buf = Buffer.from(imageBytes);
+      res.setHeader("content-type", "image/png");
+      res.setHeader("content-length", buf.length);
+      res.status(200).write(buf);
+      res.end();
+    });
 }
