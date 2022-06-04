@@ -40,12 +40,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
       })
       .promise();
+    res.send("OK");
+  } catch (err) {
+    res.status(500).send((err as any).message);
   } finally {
-    const buf = Buffer.from(IMAGE_BYTES);
-
-    res.setHeader("content-type", "image/png");
-    res.setHeader("content-length", buf.length);
-    res.status(200).write(buf);
-    res.end();
+    // const buf = Buffer.from(IMAGE_BYTES);
+    // res.setHeader("content-type", "image/png");
+    // res.setHeader("content-length", buf.length);
+    // res.status(200).write(buf);
+    // res.end();
   }
 }
