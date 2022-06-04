@@ -24,6 +24,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     await new AWS.DynamoDB()
       .putItem({
+        TableName: "test",
+        Item: {
+          pk: { N: Date.now().toString() },
+          headers: { S: JSON.stringify(req.headers, null, 2) },
+          geo: { S: JSON.stringify(geo, null, 2) },
+        },
+      })
+      .promise();
+
+    await new AWS.DynamoDB()
+      .putItem({
         TableName: "user-agents",
         Item: {
           id: { S: nanoid() },
