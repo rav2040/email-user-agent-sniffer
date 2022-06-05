@@ -8,19 +8,31 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const to = req.query["to"];
 
-    if (!to) throw Error("Missing 'to' param.");
+    if (!to) throw Error(`Missing "to" query param.`);
 
     const params = {
       Messages: [
         {
           From: { Email: "no-reply@rav2040.xyz" },
           To: [{ Email: to }],
-          Subject: "User agent sniffer",
+          Subject: "Email tracking beacon",
           HTMLPart: `
             <html>
+              <head>
+                <style>
+                  .desktop { display: default; }
+                  .mobile { display: none; }
+                  @media (max-width: 600px) {
+                    .desktop { display: none; }
+                    .mobile { display: default; }
+                  }
+                <style>
+              </head>
               <body>
-                <p>some text</p>
-                <img src="https://email-user-agent-sniffer.vercel.app/api/sniff.png" />
+                <p>This email contains a tracking beacon which logs client data at https://email-user-agent-sniffer.vercel.app</p>
+                <p>All logged data is purged after one hour.</p>
+                <img class="desktop" src="https://email-user-agent-sniffer.vercel.app/api/beacon/desktop/sniff.png" />
+                <img class="mobile" src="https://email-user-agent-sniffer.vercel.app/api/beacon/mobile/sniff.png" />
               </body>
             </html>
           `,
