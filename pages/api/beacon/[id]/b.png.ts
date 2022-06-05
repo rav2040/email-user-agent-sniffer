@@ -28,7 +28,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           id: { S: String(req.query["id"]) },
           timestamp: { S: new Date().toISOString() },
           expires: { S: new Date(Date.now() + 3_600_000).toISOString() },
-          tag: { S: String(req.query["tag"]) },
           ip: { S: ip },
           user_agent: { S: req.headers["user-agent"] ?? "" },
           country_code: { S: geo.success ? geo.country_code : "" },

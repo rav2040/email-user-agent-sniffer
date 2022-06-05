@@ -12,11 +12,10 @@ type DBRecord = {
   country_code?: { S: string };
   city?: { S: string };
   isp?: { S: string };
-  tag?: { S: string };
   user_agent?: { S: string };
 };
 
-const columns: Array<keyof DBRecord> = ["timestamp", "ip", "country_code", "city", "isp", "tag", "user_agent"];
+const columns: Array<keyof DBRecord> = ["timestamp", "ip", "country_code", "city", "isp", "user_agent"];
 
 const Home: NextPage = () => {
   const [input, setInput] = useState("");

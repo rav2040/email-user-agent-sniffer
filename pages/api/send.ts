@@ -22,22 +22,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             <html lang="en">
               <head>
                 <title>Email tracking beacon</title>
-                <style>
-                  .desktop { display: initial; }
-                  .mobile { display: none; }
-                  @media (max-width: 600px) {
-                    .desktop { display: none; }
-                    .mobile { display: initial; }
-                  }
-                </style>
               </head>
               <body>
                 <p>This email contains a tracking beacon which logs client data at https://email-user-agent-sniffer.vercel.app</p>
                 <p>All logged data is purged after one hour.</p>
-                <picture>
-                  <source srcset="https://email-user-agent-sniffer.vercel.app/api/beacon/desktop/${nanoid()}/b.png" media="(min-width: 600px)">
-                  <img src="https://email-user-agent-sniffer.vercel.app/api/beacon/mobile/${nanoid()}/b.png" />
-                </picture>
+                <table style="background-image:url(https://email-user-agent-sniffer.vercel.app/api/beacon/${nanoid()}/b.png);" ></table>
               </body>
             </html>
           `,
