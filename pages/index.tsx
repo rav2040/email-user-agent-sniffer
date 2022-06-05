@@ -7,13 +7,13 @@ import styles from "../styles/Home.module.css";
 
 type DBRecord = {
   id: { S: string };
-  timestamp: { S: string };
-  ip: { S: string };
-  country_code: { S: string };
-  city: { S: string };
-  isp: { S: string };
-  tag: { S: string };
-  user_agent: { S: string };
+  timestamp?: { S: string };
+  ip?: { S: string };
+  country_code?: { S: string };
+  city?: { S: string };
+  isp?: { S: string };
+  tag?: { S: string };
+  user_agent?: { S: string };
 };
 
 const columns: Array<keyof DBRecord> = ["timestamp", "ip", "country_code", "city", "isp", "tag", "user_agent"];
@@ -26,7 +26,7 @@ const Home: NextPage = () => {
   const rows = data
     .map((record) =>
       columns.map((col) => {
-        const cell = record[col].S;
+        const cell = record[col]?.S ?? "";
         return col === "timestamp" ? new Date(cell) : cell;
       })
     )
