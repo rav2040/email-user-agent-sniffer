@@ -79,7 +79,7 @@ const Home: NextPage = () => {
           </div>
         </div>
         <div style={{ marginBottom: "0.5rem" }}>
-          The table below will automatically update when an email is opened. All logged data is purged after one hour.
+          Refresh the page after opening the email to see the updated table. All logged data is purged after one hour.
         </div>
         <table>
           <thead>
