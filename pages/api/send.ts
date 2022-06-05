@@ -11,7 +11,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (!to) throw Error(`Missing "to" query param.`);
 
-    const id = nanoid();
     const params = {
       Messages: [
         {
@@ -35,8 +34,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               <body>
                 <p>This email contains a tracking beacon which logs client data at https://email-user-agent-sniffer.vercel.app</p>
                 <p>All logged data is purged after one hour.</p>
-                <img class="desktop" src="https://email-user-agent-sniffer.vercel.app/api/beacon/desktop/${id}/b.png" />
-                <img class="mobile" style="display:none;" src="https://email-user-agent-sniffer.vercel.app/api/beacon/mobile/${id}/b.png" />
+                <img class="desktop" src="https://email-user-agent-sniffer.vercel.app/api/beacon/desktop/${nanoid()}/b.png" />
+                <img class="mobile" style="display:none;" src="https://email-user-agent-sniffer.vercel.app/api/beacon/mobile/${nanoid()}/b.png" />
               </body>
             </html>
           `,
