@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import AWS from "aws-sdk";
-import { nanoid } from "nanoid";
 
 AWS.config.update({
   accessKeyId: process.env.V_ACCESS_KEY_ID,
@@ -26,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       .putItem({
         TableName: "user-agents",
         Item: {
-          id: { S: nanoid() },
+          id: { S: String(req.query["id"]) },
           timestamp: { S: new Date().toISOString() },
           expires: { S: new Date(Date.now() + 3_600_000).toISOString() },
           tag: { S: String(req.query["tag"]) },

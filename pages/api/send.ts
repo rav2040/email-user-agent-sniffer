@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import mailjet from "node-mailjet";
+import { nanoid } from "nanoid";
 
 const client = mailjet.connect(String(process.env.MAILJET_API_KEY), String(process.env.MAILJET_SECRET_KEY));
 
@@ -10,6 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (!to) throw Error(`Missing "to" query param.`);
 
+    const id = nanoid();
     const params = {
       Messages: [
         {
@@ -33,8 +35,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               <body>
                 <p>This email contains a tracking beacon which logs client data at https://email-user-agent-sniffer.vercel.app</p>
                 <p>All logged data is purged after one hour.</p>
-                <img class="desktop" src="https://email-user-agent-sniffer.vercel.app/api/beacon/desktop/sniff.png" />
-                <img class="mobile" style="display:none;" src="https://email-user-agent-sniffer.vercel.app/api/beacon/mobile/sniff.png" />
+                <img class="desktop" src="https://email-user-agent-sniffer.vercel.app/api/beacon/desktop/${id}/b.png" />
+                <img class="mobile" style="display:none;" src="https://email-user-agent-sniffer.vercel.app/api/beacon/mobile/${id}/b.png" />
               </body>
             </html>
           `,
