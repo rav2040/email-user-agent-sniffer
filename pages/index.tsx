@@ -74,7 +74,7 @@ const Home: NextPage = () => {
             <div
               style={{ display: submitting ? "block" : "none", paddingLeft: "1rem", position: "absolute", right: -50 }}
             >
-              <Img src={"/rocket.gif"} alt={"Loading indicator"} width={30} height={30} />
+              <Img src={"/rocket.gif"} alt={"Loading indicator"} width={30} height={30} loading={"eager"} />
             </div>
           </div>
         </div>

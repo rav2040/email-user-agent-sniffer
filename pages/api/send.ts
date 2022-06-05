@@ -17,16 +17,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           To: [{ Email: to }],
           Subject: "Email tracking beacon",
           HTMLPart: `
-            <html>
+            <!DOCTYPE html>
+            <html lang="en">
               <head>
+                <title>Email tracking beacon</title>
                 <style>
-                  .desktop { display: default; }
+                  .desktop { display: initial; }
                   .mobile { display: none; }
                   @media (max-width: 600px) {
                     .desktop { display: none; }
-                    .mobile { display: default; }
+                    .mobile { display: initial; }
                   }
-                <style>
+                </style>
               </head>
               <body>
                 <p>This email contains a tracking beacon which logs client data at https://email-user-agent-sniffer.vercel.app</p>

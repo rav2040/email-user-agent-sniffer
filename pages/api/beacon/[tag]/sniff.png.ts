@@ -17,7 +17,6 @@ const imageBytes = [
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const tag = String(req.query["tag"]);
     const ip = String(req.headers["x-forwarded-for"] ?? req.headers["x-real-ip"]);
 
     const geoResponse = await fetch("https://ipwho.is/" + ip);
@@ -30,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           id: { S: nanoid() },
           timestamp: { S: new Date().toISOString() },
           expires: { S: new Date(Date.now() + 3_600_000).toISOString() },
-          tag: { S: tag },
+          tag: { S: String(req.query["tag"]) },
           ip: { S: ip },
           user_agent: { S: req.headers["user-agent"] ?? "" },
           country_code: { S: geo.success ? geo.country_code : "" },
