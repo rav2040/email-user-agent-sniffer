@@ -34,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 <p>This email contains a tracking beacon which logs client data at https://email-user-agent-sniffer.vercel.app</p>
                 <p>All logged data is purged after one hour.</p>
                 <img class="desktop" src="https://email-user-agent-sniffer.vercel.app/api/beacon/desktop/sniff.png" />
-                <img class="mobile" src="https://email-user-agent-sniffer.vercel.app/api/beacon/mobile/sniff.png" />
+                <img class="mobile" style="display:none;" src="https://email-user-agent-sniffer.vercel.app/api/beacon/mobile/sniff.png" />
               </body>
             </html>
           `,
