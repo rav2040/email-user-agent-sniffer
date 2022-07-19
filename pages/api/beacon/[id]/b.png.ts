@@ -27,12 +27,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         Item: {
           id: { S: String(req.query["id"]) },
           timestamp: { S: new Date().toISOString() },
-          expires: { S: new Date(Date.now() + 3_600_000).toISOString() },
           ip: { S: ip },
           user_agent: { S: req.headers["user-agent"] ?? "" },
           country_code: { S: geo.success ? geo.country_code : "" },
           city: { S: geo.success ? geo.city : "" },
           isp: { S: geo.success ? geo.connection.isp : "" },
+          expires: { N: Date.now() + 3_600_000 },
         },
       })
       .promise();
