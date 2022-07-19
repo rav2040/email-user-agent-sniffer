@@ -32,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           country_code: { S: geo.success ? geo.country_code : "" },
           city: { S: geo.success ? geo.city : "" },
           isp: { S: geo.success ? geo.connection.isp : "" },
-          expires: { N: Date.now() + 3_600_000 },
+          expires: { N: String(Date.now() + 3_600_000) },
         },
       })
       .promise();
